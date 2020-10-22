@@ -1,0 +1,45 @@
+name: build
+
+on: [push, pull_request]
+
+jobs:
+  lint:
+    name: Coding style and linting checks
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Set up Python
+      uses: actions/setup-python@v1
+      with:
+        python-version: '3.6'
+    - name: Bootstrap environment
+      run: |
+        sudo apt update
+        sudo apt install python3-venv make
+        python -m pip install --upgrade pip
+        make dev
+    - name: Lint
+      run: |
+        make cs lint
+
+  test:
+    name: Test with docker image ${{ matrix.docker-image }}
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        docker-image: ['ubuntu:xenial', 'ubuntu:bionic', 'ubuntu:focal', 'debian:bullseye']
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Set up Python
+      uses: actions/setup-python@v1
+      with:
+        python-version: '3.6'
+    - name: Bootstrap environment
+      run: |
+        sudo apt update
+        sudo apt install python3-venv make
+        python -m pip install --upgrade pip
+    - name: Test
+      run: |
+        make DOCKER_IMAGE=${{ matrix.docker-image }} check-docker-image

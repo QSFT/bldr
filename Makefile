@@ -31,6 +31,11 @@ lint: dev
 check: dev
 	. $(VIRTUALENV)/bin/activate && pytest
 
+# Run tests with specific docker-image
+.PHONY: check-docker-image
+check-docker-image: dev
+	. $(VIRTUALENV)/bin/activate && pytest --docker-image=$(DOCKER_IMAGE)
+
 # Run tests on one selected docker image
 .PHONY: quick-check
 quick-check:
