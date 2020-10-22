@@ -1,0 +1,31 @@
+#!/usr/bin/env bash
+
+set -e
+echo "Preparing BLDR deb builder docker image"
+
+echo "Adding non-privileged user ${NONPRIV_USER_NAME} with uid ${NONPRIV_USER_UID}"
+useradd -u ${NONPRIV_USER_UID} ${NONPRIV_USER_NAME} -m
+
+echo "Creating local apt repo, so that the supplied /etc/apt/sources.list works in this context too"
+mkdir /local-apt
+touch /local-apt/Packages
+touch /local-apt/Sources
+
+echo "Downloading and installing packages required by BLDR"
+noninteractive-apt-get update
+noninteractive-apt-get install eatmydata
+noninteractive-apt-get install nano joe vim-tiny \
+    rsync sudo build-essential \
+    pkg-config devscripts equivs git
+if [[ $(lsb_release --codename --short) = 'xenial' ]]
+then
+    noninteractive-apt-get install pkg-create-dbgsym
+fi
+noninteractive-apt-get upgrade
+noninteractive-apt-get clean
+
+echo "Enabling passwordless sudo inside the container"
+echo "${NONPRIV_USER_NAME} ALL=(ALL) NOPASSWD: ALL" >/etc/sudoers.d/allow_user_anything
+chmod 440 /etc/sudoers.d/*
+
+echo "Init done."

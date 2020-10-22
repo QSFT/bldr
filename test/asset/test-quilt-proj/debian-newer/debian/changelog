@@ -1,0 +1,12 @@
+quilt-proj (4:1.1-1ubuntu1) precise; urgency=low
+
+  * Imported new upstream version
+  * Upstream started new versioning
+
+ -- Test Maintainer <test.maintainer@example.com>  Mon, 21 Mar 2016 13:38:38 +0000
+
+quilt-proj (3:2.1+5-6:7~8.1-4ubuntu2.3bb50.1) precise; urgency=low
+
+  * Imported into examples
+
+ -- Test Maintainer <test.maintainer@example.com>  Thu, 10 Mar 2016 09:44:22 +0000

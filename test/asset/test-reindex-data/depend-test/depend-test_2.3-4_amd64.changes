@@ -1,0 +1,31 @@
+Format: 1.8
+Date: Thu, 10 Mar 2016 09:44:22 +0000
+Source: depend-test
+Binary: depend-test
+Architecture: source amd64
+Version: 1:2.3-4
+Distribution: precise
+Urgency: low
+Maintainer: Test Maintainer <test.maintainer@example.com>
+Changed-By: Test Maintainer <test.maintainer@example.com>
+Description:
+ depend-test - A package with dependencies.
+Changes:
+ depend-test (1:2.3-4) precise; urgency=low
+ .
+   * Imported into examples
+Checksums-Sha1:
+ 6520e9dc4acffe3cde66ec2e2c7154ab011c478c 545 depend-test_2.3-4.dsc
+ b3542f45eb1bd975e27f59eafb1a2bd9148bbe07 727 depend-test_2.3-4.tar.gz
+ 9da07f346c3142fb167f28cafd8ee43fe6bf1fb0 5782 depend-test_2.3-4_amd64.buildinfo
+ d74c42e253f157df4ec121675ddbe03b434bc3c7 1196 depend-test_2.3-4_amd64.deb
+Checksums-Sha256:
+ a6a3ba0f1aeea0744e8f39b27404784abe763a1bf11d892070839aeb12bf18f9 545 depend-test_2.3-4.dsc
+ 4909e796638895e6bed95514cbcc5deab3a604ae8cc4eb6a518f8046b3ea2700 727 depend-test_2.3-4.tar.gz
+ c6704d761443e346afe583d1b768a00715f2edd0efbde6ca739b7f33176b0802 5782 depend-test_2.3-4_amd64.buildinfo
+ ea75c6842e7781a72abfb9ea4ea42fa2f51b9d9920dfcbb0020efa3ccdc928e0 1196 depend-test_2.3-4_amd64.deb
+Files:
+ 50cbcab4ed6fbca0345b18da4dd33ab3 545 misc optional depend-test_2.3-4.dsc
+ 73d0ddf05d66685f91e342d3a6cff65e 727 misc optional depend-test_2.3-4.tar.gz
+ 32e53b38144162b7a91f4bd44a8595f2 5782 misc optional depend-test_2.3-4_amd64.buildinfo
+ b58219a041f1a4528204c065321e4302 1196 misc optional depend-test_2.3-4_amd64.deb

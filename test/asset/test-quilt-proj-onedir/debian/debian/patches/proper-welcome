@@ -1,0 +1,7 @@
+Index: test-quilt-proj-onedir/feeling/alone
+===================================================================
+--- test-quilt-proj-onedir.orig/feeling/alone
++++ test-quilt-proj-onedir/feeling/alone
+@@ -1 +1 @@
+-Hai
++Hello, friend!

@@ -1,0 +1,13 @@
+Description: fixed false bug
+Origin:      other
+Index: debian/am-i-quilted
+===================================================================
+--- debian.orig/am-i-quilted	2016-03-21 12:34:44.589158757 +0000
++++ debian/am-i-quilted	2016-03-21 12:36:13.069109967 +0000
+@@ -2,5 +2,5 @@
+ set -e
+ echo "So I am a little script from upstream"
+ echo "A little bit buggy though."
+-false
++true
+ echo "But do you still love me?"

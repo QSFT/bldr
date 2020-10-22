@@ -1,0 +1,12 @@
+Source: never-builds
+Section: admin
+Priority: required
+Maintainer: Test Developer <test.developer@test.test>
+Build-Depends: non-existent-dependency (>= 1.0)
+Standards-Version: 1.0
+
+Package: never-builds
+Essential: yes
+Pre-Depends: ${shlibs:Depends}, ${misc:Depends}, util-linux (>= 2.15~rc1-1)
+Architecture: any
+Description: A test package, which never builds

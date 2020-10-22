@@ -1,0 +1,67 @@
+#!/bin/bash
+
+set -o errexit
+set -o nounset
+set -o pipefail
+
+if [[ $# = 0 ]]; then
+	echo "Usage: $0 <package_name>"
+	exit 1
+fi
+
+PACKAGE_NAME="$1"
+
+cd "/source/$PACKAGE_NAME/debian"
+if ! grep -q quilt source/format; then
+	echo "Only use this script on quilt type packages"
+	exit 1
+fi
+
+PACKAGE_VERSION="$(head -1 changelog | sed -r 's/.*\(([0-9]:)?(.*)-[^-]*\).*/\2/')"
+SOURCE_PKG_NAME="$(grep Source: <control | cut -d' ' -f2)"
+rsync --delete -a "/source/$PACKAGE_NAME/" "/tmp/source_copy/$PACKAGE_NAME-with-git/"
+cd "/tmp/source_copy/$PACKAGE_NAME-with-git/"
+git rev-parse --verify upstream 2>/dev/null || git branch upstream --track origin/upstream
+git rev-parse --verify ubuntu 2>/dev/null || git branch ubuntu --track origin/ubuntu
+
+# This should not be necessary, if all our patches were in quilt format too.
+# Remove this code, when that dream became true.
+if NON_QUILT_DIFFS="$(git diff --name-only ubuntu...HEAD | grep -v "^debian/")"; then
+	echo "Creating automatic quilt patch"
+	PATCHES_DIR="/tmp/source_copy/$PACKAGE_NAME/debian/patches/"
+	mkdir -p "$PATCHES_DIR"
+	touch "$PATCHES_DIR/series"
+	git diff ubuntu...HEAD -- $NON_QUILT_DIFFS >"$PATCHES_DIR/bldr-auto-patch"
+	echo -e "bldr-auto-patch\n$(cat $PATCHES_DIR/series)" >"$PATCHES_DIR/series"
+	patch -d "/tmp/source_copy/$PACKAGE_NAME" -p1 --reverse <"$PATCHES_DIR/bldr-auto-patch"
+fi
+
+echo "Creating ${SOURCE_PKG_NAME}_${PACKAGE_VERSION}.orig tarball"
+git checkout upstream...HEAD
+
+COMMIT_TIME="$(git show -s --format="format:%cD")"
+
+# Upstream packages with only one directory need to be handled specially:
+#   There is logic to skip the leading directory of .tar.gz packages, if
+#   there is one. E.g. git-import-dsc does this, but also dpkg-source. After
+#   doing it twice, the build breaks, because everything was under
+#   /nss-3.12/nss*.
+#   import-dsc cut off the first one, dpkg-source cut off the second one,
+#   and then build scripts did not find the sources under ./nss/*
+
+# Ls is compared to 4, because the other 3 is ".", ".." and ".git"
+# -a needs to be used, since we have some packages with .hidden_files
+if [[ $(ls -a | wc -l) -le 4 ]]; then
+	echo "Creating lead directory in tarball"
+	FROM_DIR=$(ls)
+	mkdir ${SOURCE_PKG_NAME}-${PACKAGE_VERSION}
+	mv ${FROM_DIR} ${SOURCE_PKG_NAME}-${PACKAGE_VERSION}
+fi
+
+tar --create \
+	--exclude=".git" \
+	--mtime="${COMMIT_TIME}" \
+	--owner=root --group=root --numeric-owner \
+	--sort=name \
+	. \
+	| gzip -n >"../${SOURCE_PKG_NAME}_${PACKAGE_VERSION}.orig.tar.gz"

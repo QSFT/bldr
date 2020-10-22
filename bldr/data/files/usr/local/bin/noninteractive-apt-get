@@ -1,0 +1,8 @@
+#!/bin/bash
+
+EATMYDATA=
+if [ -x /usr/bin/eatmydata ];
+then
+    EATMYDATA="/usr/bin/eatmydata"
+fi
+DEBIAN_FRONTEND=noninteractive exec ${EATMYDATA} apt -y --allow-downgrades $@

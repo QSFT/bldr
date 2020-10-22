@@ -1,0 +1,10 @@
+Source: quilt-proj-onedir
+Maintainer: Test Maintainer <test.maintainer@example.com>
+Section: misc
+Priority: optional
+Build-Depends: debhelper (>= 9)
+
+Package: quilt-proj-onedir
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}
+Description: A package with weird upstream

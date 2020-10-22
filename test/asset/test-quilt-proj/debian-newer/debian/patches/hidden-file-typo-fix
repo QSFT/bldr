@@ -1,0 +1,6 @@
+--- debian.orig/.hidden-file        2016-03-25 09:51:49.295120496 +0100
++++ debian/.hidden-file   2016-03-25 09:53:13.965021541 +0100
+@@ -1 +1 @@
+-Oh, I am so hidden by deflaut.
+\ No newline at end of file
++Oh, I am so hidden by default.

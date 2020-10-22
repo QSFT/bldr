@@ -1,0 +1,2 @@
+deb [ trusted=yes ] file:///local-apt ./
+deb-src [ trusted=yes ] file:///local-apt ./

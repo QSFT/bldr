@@ -1,0 +1,8 @@
+include requirements.txt
+include requirements-dev.txt
+include requirements.in
+include requirements-dev.in
+include LICENSE
+include README.md
+include Makefile
+recursive-include test *

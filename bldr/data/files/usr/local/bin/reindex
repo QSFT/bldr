@@ -1,0 +1,10 @@
+#!/bin/bash
+
+set -o errexit
+set -o nounset
+set -o pipefail
+
+cd /local-apt
+dpkg-scanpackages -t deb . >Packages
+dpkg-scanpackages -t ddeb . >>Packages
+dpkg-scansources . >Sources

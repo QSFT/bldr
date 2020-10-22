@@ -1,0 +1,9 @@
+./
+./usr/
+./usr/bin/
+./usr/bin/dummy
+./usr/share/
+./usr/share/doc/
+./usr/share/doc/dummy/
+./usr/share/doc/dummy/changelog.Debian.gz
+./usr/share/doc/dummy/copyright

@@ -1,0 +1,44 @@
+Package: depend-test
+Version: 1:2.3-4
+Architecture: amd64
+Maintainer: Test Maintainer <test.maintainer@example.com>
+Installed-Size: 9
+Depends: libdependable
+Filename: ./depend-test/depend-test_2.3-4_amd64.deb
+Size: 1196
+MD5sum: b58219a041f1a4528204c065321e4302
+SHA1: d74c42e253f157df4ec121675ddbe03b434bc3c7
+SHA256: ea75c6842e7781a72abfb9ea4ea42fa2f51b9d9920dfcbb0020efa3ccdc928e0
+Section: misc
+Priority: optional
+Description: A package with dependencies.
+
+Package: libdependable
+Version: 1:2.3-4
+Architecture: amd64
+Maintainer: Test Maintainer <test.maintainer@example.com>
+Installed-Size: 9
+Filename: ./nonstandard-dir/libdependable_2.3-4_amd64.deb
+Size: 1192
+MD5sum: 19aaa05d09f4fa5846f2c2f3f5958197
+SHA1: a52c4f6799586cf5613a88b137c75e3e8cb7e2d7
+SHA256: ebd8b82c65eec44bf435d9b3ec9b1a1492dd7a950b4e41c6da8d3022d8914992
+Section: misc
+Priority: optional
+Description: Dependable runtime library. You can depend on it.
+
+Package: libdependable-dev
+Source: libdependable
+Version: 1:2.3-4
+Architecture: amd64
+Maintainer: Test Maintainer <test.maintainer@example.com>
+Installed-Size: 9
+Filename: ./nonstandard-dir/libdependable-dev_2.3-4_amd64.deb
+Size: 1216
+MD5sum: 7677c14e942a10a6a117ab4013a2bcaa
+SHA1: cd6d16fa852f4e9c8f5109af692ddc5e6479b320
+SHA256: 1af68e239ae3806ddbec850f960f20b8839ae8d4b4d9aa151d42a72801e01acf
+Section: misc
+Priority: optional
+Description: Dependable build time library. You can depend on it.
+

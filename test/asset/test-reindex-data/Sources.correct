@@ -1,0 +1,43 @@
+Format: 1.0
+Package: depend-test
+Binary: depend-test
+Architecture: any
+Version: 1:2.3-4
+Maintainer: Test Maintainer <test.maintainer@example.com>
+Standards-Version: 3.9.2
+Build-Depends: debhelper (>= 9), libdependable-dev
+Package-List:
+ depend-test deb misc optional arch=any
+Directory: ./depend-test
+Checksums-Sha1:
+ 6520e9dc4acffe3cde66ec2e2c7154ab011c478c 545 depend-test_2.3-4.dsc
+ b3542f45eb1bd975e27f59eafb1a2bd9148bbe07 727 depend-test_2.3-4.tar.gz
+Checksums-Sha256:
+ a6a3ba0f1aeea0744e8f39b27404784abe763a1bf11d892070839aeb12bf18f9 545 depend-test_2.3-4.dsc
+ 4909e796638895e6bed95514cbcc5deab3a604ae8cc4eb6a518f8046b3ea2700 727 depend-test_2.3-4.tar.gz
+Files:
+ 50cbcab4ed6fbca0345b18da4dd33ab3 545 depend-test_2.3-4.dsc
+ 73d0ddf05d66685f91e342d3a6cff65e 727 depend-test_2.3-4.tar.gz
+
+Format: 1.0
+Package: libdependable
+Binary: libdependable, libdependable-dev
+Architecture: any
+Version: 1:2.3-4
+Maintainer: Test Maintainer <test.maintainer@example.com>
+Standards-Version: 3.9.2
+Build-Depends: debhelper (>= 9)
+Package-List:
+ libdependable deb misc optional arch=any
+ libdependable-dev deb misc optional arch=any
+Directory: ./nonstandard-dir
+Checksums-Sha1:
+ ac8892ac268c10df708ce49bc1ac315f9154d74f 603 libdependable_2.3-4.dsc
+ 5345aec6bad1d7e03f3afaae5cd6d00bc7df5cfe 786 libdependable_2.3-4.tar.gz
+Checksums-Sha256:
+ 62f92eb8dfeb5cf85c2b56e5f7d6869d0322420035759115d3f979848e6168d4 603 libdependable_2.3-4.dsc
+ 8b770fde1df196e6b0b222f42f5e698ca1fd220a8cc1274ce8b9b63bdada9137 786 libdependable_2.3-4.tar.gz
+Files:
+ 0a374ef49f80791bdef4917d7b6a21bf 603 libdependable_2.3-4.dsc
+ 320a8fe6cf08e6d6bd030182e47effa5 786 libdependable_2.3-4.tar.gz
+

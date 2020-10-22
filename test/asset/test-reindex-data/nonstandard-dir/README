@@ -1,0 +1,15 @@
+
+!!! WARNING !!!
+
+Files in this directory were generated (built) by the Makefile. Do not edit these files as they will be replaced by the next
+build.
+
+In order to re-produce these files:
+
+
+1. run make: this will build the deb packages and the other related artifacts
+2. run make install: this will place the deb packages and the other related artifacts to their expected directory
+3. run make clean: to tidy up the intermediate files
+4. git commit
+
+Make sure that dpkg-buildpackage and the other requirements are satisfied.

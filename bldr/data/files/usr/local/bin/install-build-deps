@@ -1,0 +1,27 @@
+#!/bin/bash
+
+set -o errexit
+set -o nounset
+set -o pipefail
+
+exit_with_message()
+{
+    echo "$@"
+    rm /control
+    exit 0
+
+}
+if [ ! -s /control ]; then
+    exit_with_message "Supplied control file is empty, skipping dependency installation"
+fi
+echo "Installing build dependencies into cache layer"
+
+echo "Updating apt repository"
+sudo noninteractive-apt-get update
+sudo noninteractive-apt-get dist-upgrade
+
+if ! mk-build-deps --root-cmd sudo --tool noninteractive-apt-get --install --remove /control; then
+    exit_with_message "WARNING: not all dependencies could be cached"
+fi
+
+exit_with_message "Build deps (cache layer) installed successfully"

@@ -1,0 +1,90 @@
+#!/bin/bash
+
+set -o errexit
+set -o nounset
+set -o pipefail
+
+if [[ $# = 0 ]]; then
+	echo "Usage: $0 <package_name>"
+	exit 1
+fi
+
+PACKAGE_NAME="$1"
+
+echo "Updating apt repository"
+reindex
+sudo noninteractive-apt-get update
+sudo noninteractive-apt-get dist-upgrade
+
+echo "Copying sources to temp dir"
+mkdir -p "/tmp/source_copy/$PACKAGE_NAME"
+rsync --exclude .git --delete -a "/source/$PACKAGE_NAME/" "/tmp/source_copy/$PACKAGE_NAME/"
+
+if grep -q quilt "/source/$PACKAGE_NAME/debian/source/format"; then
+	prepare-quilt-package "$PACKAGE_NAME"
+fi
+
+cd "/tmp/source_copy/$PACKAGE_NAME"
+
+if [[ -n "${BLDR_SNAPSHOT:+1}" ]]; then
+	echo "Setting package version"
+	debchange -l "+xsnapshot+$(date +%Y.%m.%d.%H.%M.%S)+" "Snapshot version"
+fi
+
+if ! dpkg-checkbuilddeps 2>/dev/null; then
+    echo "Downloading dependencies"
+    if ! mk-build-deps --root-cmd sudo --tool noninteractive-apt-get --install --remove; then
+        echo "ERROR INSTALLING DEPENDENCIES"
+        echo
+        echo "Output of dpkg-checkbuilddeps:"
+        dpkg-checkbuilddeps || true
+        echo
+        echo "When trying to install those packages: "
+        dpkg-checkbuilddeps  2>&1 | sed -n -r 's/.*Unmet build dependencies: ([^ ]+).*/\1/p' | xargs sudo apt-get install || true
+        exit 2
+    fi
+fi
+
+DPKG_ADDITIONAL_FLAGS=''
+COMMIT_ID=$(cd /source/$PACKAGE_NAME && git rev-parse HEAD || true)
+if [[ -n $COMMIT_ID ]]; then
+
+    GIT_REMOTE=$(cd /source/$PACKAGE_NAME && git config --get remote.origin.url || true)
+    if [[ -n $GIT_REMOTE ]]; then
+        DPKG_ADDITIONAL_FLAGS="--source-option=-DVcs-Git=$GIT_REMOTE --source-option=-DVcs-Git-Commit-Id=$COMMIT_ID"
+    else
+        echo "No remote origin, not tagging deb package"
+    fi
+
+else
+    echo "Not a git source, not tagging deb package"
+fi
+
+
+# ensure same mtime to all files and directories
+# date is set to the past as we want to ensure that when dpkg-buildpackage
+# applies patches the affected files have a new mtime
+#
+# if the timestamp is set to the current time, it may happen that the files
+# affected by applying debian/patches will have the same mtime due to the
+# 1 second precision of the stat() call in perl
+#
+# at the end, this will cause problems as gnu make relies on mtimes and certain targets
+# which should be re-built as a cause of the patch applying will not be re-built as
+# we saw in the case of gnutls
+
+DATE=$(date -d '-1 hour')
+find . -print0 | xargs -0 touch -h -d "${DATE}"
+
+echo "Building package"
+dpkg-buildpackage -us -uc -F $DPKG_ADDITIONAL_FLAGS
+
+echo "Copying build results to local apt repository"
+DEBS_DIR="/local-apt/$PACKAGE_NAME/debs"
+rm -rf "$DEBS_DIR"
+mkdir -p "$DEBS_DIR"
+find /tmp/source_copy/$PACKAGE_NAME/../ -maxdepth 1 -type f -exec mv {} "$DEBS_DIR" \;
+
+reindex
+sudo noninteractive-apt-get update
+sudo noninteractive-apt-get dist-upgrade

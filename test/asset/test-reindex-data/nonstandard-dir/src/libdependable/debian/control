@@ -1,0 +1,16 @@
+Source: libdependable
+Maintainer: Test Maintainer <test.maintainer@example.com>
+Section: misc
+Priority: optional
+Standards-Version: 3.9.2
+Build-Depends: debhelper (>= 9)
+
+Package: libdependable
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}
+Description: Dependable runtime library. You can depend on it.
+
+Package: libdependable-dev
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}
+Description: Dependable build time library. You can depend on it.

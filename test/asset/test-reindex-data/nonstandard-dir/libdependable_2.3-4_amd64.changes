@@ -1,0 +1,35 @@
+Format: 1.8
+Date: Thu, 10 Mar 2016 09:44:22 +0000
+Source: libdependable
+Binary: libdependable libdependable-dev
+Architecture: source amd64
+Version: 1:2.3-4
+Distribution: precise
+Urgency: low
+Maintainer: Test Maintainer <test.maintainer@example.com>
+Changed-By: Test Maintainer <test.maintainer@example.com>
+Description:
+ libdependable - Dependable runtime library. You can depend on it.
+ libdependable-dev - Dependable build time library. You can depend on it.
+Changes:
+ libdependable (1:2.3-4) precise; urgency=low
+ .
+   * Imported into examples
+Checksums-Sha1:
+ ac8892ac268c10df708ce49bc1ac315f9154d74f 603 libdependable_2.3-4.dsc
+ 5345aec6bad1d7e03f3afaae5cd6d00bc7df5cfe 786 libdependable_2.3-4.tar.gz
+ cd6d16fa852f4e9c8f5109af692ddc5e6479b320 1216 libdependable-dev_2.3-4_amd64.deb
+ c2c5de88020ad18d28eabdde460cd8747a76947c 6075 libdependable_2.3-4_amd64.buildinfo
+ a52c4f6799586cf5613a88b137c75e3e8cb7e2d7 1192 libdependable_2.3-4_amd64.deb
+Checksums-Sha256:
+ 62f92eb8dfeb5cf85c2b56e5f7d6869d0322420035759115d3f979848e6168d4 603 libdependable_2.3-4.dsc
+ 8b770fde1df196e6b0b222f42f5e698ca1fd220a8cc1274ce8b9b63bdada9137 786 libdependable_2.3-4.tar.gz
+ 1af68e239ae3806ddbec850f960f20b8839ae8d4b4d9aa151d42a72801e01acf 1216 libdependable-dev_2.3-4_amd64.deb
+ 1a0bf20f580e8192eececef716ac7b8d8c146ebc5053b91e7585adc418644721 6075 libdependable_2.3-4_amd64.buildinfo
+ ebd8b82c65eec44bf435d9b3ec9b1a1492dd7a950b4e41c6da8d3022d8914992 1192 libdependable_2.3-4_amd64.deb
+Files:
+ 0a374ef49f80791bdef4917d7b6a21bf 603 misc optional libdependable_2.3-4.dsc
+ 320a8fe6cf08e6d6bd030182e47effa5 786 misc optional libdependable_2.3-4.tar.gz
+ 7677c14e942a10a6a117ab4013a2bcaa 1216 misc optional libdependable-dev_2.3-4_amd64.deb
+ 8472bb9cccb234f1db2accfa6c300a04 6075 misc optional libdependable_2.3-4_amd64.buildinfo
+ 19aaa05d09f4fa5846f2c2f3f5958197 1192 misc optional libdependable_2.3-4_amd64.deb

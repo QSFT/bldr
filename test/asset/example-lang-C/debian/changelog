@@ -1,0 +1,5 @@
+dummy (1.0-1) UNRELEASED; urgency=medium
+
+  * Initial release. References: jira SSBDEV-1243
+
+ -- Test Maintainer <test.maintainer@example.com>  Mon, 07 Mar 2016 09:31:08 +0100

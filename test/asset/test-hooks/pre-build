@@ -1,0 +1,5 @@
+#!/bin/bash
+
+echo "$0 called"
+cp /*.called /local-apt
+touch /local-apt/pre-build.called

@@ -1,0 +1,7 @@
+#!/bin/sh
+
+set -e
+echo "So I am a little script from upstream"
+echo "A little bit buggy though."
+false
+echo "But do you still love me?"

@@ -1,0 +1,9 @@
+Source: git-proj
+Maintainer: Test Maintainer <test.maintainer@example.com>
+Section: misc
+Priority: optional
+Standards-Version: 3.9.2
+
+Package: git-proj
+Architecture: any
+Description: A package as git project.
