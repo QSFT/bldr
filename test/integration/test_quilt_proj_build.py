@@ -1,6 +1,7 @@
 import subprocess
 import shutil
 from pathlib import Path
+from typing import Mapping
 
 import pytest
 
@@ -9,7 +10,7 @@ from ..testutil import copytree, extract_deb
 
 
 @pytest.fixture
-def quilt_project_path(tmp_path: Path, asset_dir: Path) -> Path:
+def quilt_project_path(tmp_path: Path, asset_dir: Path, git_env: Mapping[str, str]) -> Path:
     quilt_project_dir = tmp_path.joinpath('quilt_project')
     quilt_project_dir.mkdir()
     subprocess.check_call(['git', 'init'], cwd=quilt_project_dir)
@@ -17,12 +18,12 @@ def quilt_project_path(tmp_path: Path, asset_dir: Path) -> Path:
 
     copytree(asset_dir.joinpath('test-quilt-proj', 'upstream'), quilt_project_dir)
     subprocess.check_call(['git', 'add', '--all'], cwd=quilt_project_dir)
-    subprocess.check_call(['git', 'commit', '--no-verify', '--message', 'Imported older upstream'], cwd=quilt_project_dir)
+    subprocess.check_call(['git', 'commit', '--no-verify', '--message', 'Imported older upstream'], cwd=quilt_project_dir, env=git_env)
     subprocess.check_call(['git', 'tag', 'upstream-older'], cwd=quilt_project_dir)
 
     copytree(asset_dir.joinpath('test-quilt-proj', 'upstream-newer'), quilt_project_dir, exist_ok=True)
     subprocess.check_call(['git', 'add', '--all'], cwd=quilt_project_dir)
-    subprocess.check_call(['git', 'commit', '--no-verify', '--message', 'Imported newer upstream'], cwd=quilt_project_dir)
+    subprocess.check_call(['git', 'commit', '--no-verify', '--message', 'Imported newer upstream'], cwd=quilt_project_dir, env=git_env)
     subprocess.check_call(['git', 'tag', 'upstream-newer'], cwd=quilt_project_dir)
 
     subprocess.check_call(['git', 'checkout', 'upstream-older'], cwd=quilt_project_dir)
@@ -30,19 +31,19 @@ def quilt_project_path(tmp_path: Path, asset_dir: Path) -> Path:
 
     copytree(asset_dir.joinpath('test-quilt-proj', 'debian'), quilt_project_dir, exist_ok=True)
     subprocess.check_call(['git', 'add', '--all'], cwd=quilt_project_dir)
-    subprocess.check_call(['git', 'commit', '--no-verify', '--message', 'Imported debian older version'], cwd=quilt_project_dir)
+    subprocess.check_call(['git', 'commit', '--no-verify', '--message', 'Imported debian older version'], cwd=quilt_project_dir, env=git_env)
     subprocess.check_call(['git', 'tag', 'debian-older'], cwd=quilt_project_dir)
 
-    subprocess.check_call(['git', 'merge', 'upstream-newer', '--no-commit'], cwd=quilt_project_dir)
+    subprocess.check_call(['git', 'merge', 'upstream-newer', '--no-commit'], cwd=quilt_project_dir, env=git_env)
     copytree(asset_dir.joinpath('test-quilt-proj', 'debian-newer'), quilt_project_dir, exist_ok=True)
     subprocess.check_call(['git', 'add', '--all'], cwd=quilt_project_dir)
-    subprocess.check_call(['git', 'commit', '--no-verify', '--message', 'Imported debian newer version'], cwd=quilt_project_dir)
+    subprocess.check_call(['git', 'commit', '--no-verify', '--message', 'Imported debian newer version'], cwd=quilt_project_dir, env=git_env)
     subprocess.check_call(['git', 'tag', 'debian-newer'], cwd=quilt_project_dir)
 
     subprocess.check_call(['git', 'checkout', '-b', 'master'], cwd=quilt_project_dir)
     copytree(asset_dir.joinpath('test-quilt-proj', 'master'), quilt_project_dir, exist_ok=True)
     subprocess.check_call(['git', 'add', '--all'], cwd=quilt_project_dir)
-    subprocess.check_call(['git', 'commit', '--no-verify', '--message', 'Our patches'], cwd=quilt_project_dir)
+    subprocess.check_call(['git', 'commit', '--no-verify', '--message', 'Our patches'], cwd=quilt_project_dir, env=git_env)
 
     return quilt_project_dir
 

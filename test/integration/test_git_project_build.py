@@ -1,6 +1,7 @@
 import shutil
 import subprocess
 from pathlib import Path
+from typing import Mapping
 
 import pytest
 
@@ -8,7 +9,7 @@ from bldr.bldr import BLDR
 
 
 @pytest.fixture
-def git_project_path(tmp_path: Path, asset_dir: Path) -> Path:
+def git_project_path(tmp_path: Path, asset_dir: Path, git_env: Mapping[str, str]) -> Path:
     git_project_dir = tmp_path.joinpath('git_project')
     shutil.copytree(
         asset_dir.joinpath('test-git-proj'),
@@ -18,7 +19,7 @@ def git_project_path(tmp_path: Path, asset_dir: Path) -> Path:
     subprocess.check_call(['git', 'init'], cwd=git_project_dir)
     subprocess.check_call(['git', 'remote', 'add', 'origin', 'http://example.com/test-git-proj.git'], cwd=git_project_dir)
     subprocess.check_call(['git', 'add', '--all'], cwd=git_project_dir)
-    subprocess.check_call(['git', 'commit', '--no-verify', '--message', 'Initial commit for production use'], cwd=git_project_dir)
+    subprocess.check_call(['git', 'commit', '--no-verify', '--message', 'Initial commit for production use'], cwd=git_project_dir, env=git_env)
 
     return git_project_dir
 

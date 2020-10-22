@@ -1,5 +1,6 @@
 import subprocess
 from pathlib import Path
+from typing import Mapping
 
 import pytest
 
@@ -8,7 +9,7 @@ from ..testutil import copytree, extract_deb
 
 
 @pytest.fixture
-def quilt_project_path(tmp_path: Path, asset_dir: Path) -> Path:
+def quilt_project_path(tmp_path: Path, asset_dir: Path, git_env: Mapping[str, str]) -> Path:
     quilt_project_dir = tmp_path.joinpath('quilt_project')
     quilt_project_dir.mkdir()
     subprocess.check_call(['git', 'init'], cwd=quilt_project_dir)
@@ -16,12 +17,12 @@ def quilt_project_path(tmp_path: Path, asset_dir: Path) -> Path:
 
     copytree(asset_dir.joinpath('test-quilt-proj-onedir', 'upstream'), quilt_project_dir)
     subprocess.check_call(['git', 'add', '--all'], cwd=quilt_project_dir)
-    subprocess.check_call(['git', 'commit', '--no-verify', '--message', 'Imported upstream'], cwd=quilt_project_dir)
+    subprocess.check_call(['git', 'commit', '--no-verify', '--message', 'Imported upstream'], cwd=quilt_project_dir, env=git_env)
 
     subprocess.check_call(['git', 'checkout', '-b', 'ubuntu'], cwd=quilt_project_dir)
     copytree(asset_dir.joinpath('test-quilt-proj-onedir', 'debian'), quilt_project_dir)
     subprocess.check_call(['git', 'add', '--all'], cwd=quilt_project_dir)
-    subprocess.check_call(['git', 'commit', '--no-verify', '--message', 'Imported debian'], cwd=quilt_project_dir)
+    subprocess.check_call(['git', 'commit', '--no-verify', '--message', 'Imported debian'], cwd=quilt_project_dir, env=git_env)
 
     subprocess.check_call(['git', 'checkout', '-b', 'master'], cwd=quilt_project_dir)
     subprocess.check_call(['git', 'reset', '--hard', 'ubuntu'], cwd=quilt_project_dir)
