@@ -2,6 +2,6 @@ autopep8
 flake8
 mypy
 pycodestyle
-pytest
+pytest==6.0.2
 pytest-cov
 pytest-console-scripts
