@@ -27,5 +27,6 @@ noninteractive-apt-get clean
 echo "Enabling passwordless sudo inside the container"
 echo "${NONPRIV_USER_NAME} ALL=(ALL) NOPASSWD: ALL" >/etc/sudoers.d/allow_user_anything
 chmod 440 /etc/sudoers.d/*
+chmod 550 /etc/sudoers.d
 
 echo "Init done."
