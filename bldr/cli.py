@@ -110,6 +110,11 @@ class CLI:
             help="A path pointing to a directory containing the hooks",
             type=Path,
         )
+        parser.add_argument(
+            "--disable-tmpfs",
+            help="Disable using tmpfs.",
+            action="store_true",
+        )
 
     def _create_config_loader(self) -> ConfigLoader:
         return JSONConfigLoader(get_config_file_paths())
@@ -234,6 +239,7 @@ class CLI:
             nocache=self.args.nocache,
             container_env=dict(self.args.container_env),
             hooks_dir=self.args.hooks_dir,
+            disable_tmpfs=self.args.disable_tmpfs,
         )
         return bldr
 

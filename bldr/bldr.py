@@ -29,6 +29,7 @@ class BLDR:
         logger: Logger = logging.getLogger("bldr"),
         container_env: Optional[Dict] = None,
         hooks_dir: Optional[Path] = None,
+        disable_tmpfs: bool = False,
     ) -> None:
 
         if ("\n" in docker_from or " " in docker_from):
@@ -53,6 +54,8 @@ class BLDR:
 
         self._nonpriv_user_uid = self._get_nonpriv_user_uid()
         self._nonpriv_user_name = pwd.getpwuid(self._nonpriv_user_uid).pw_name
+
+        self._tmp_on_tmpfs = not disable_tmpfs
 
     @property
     def local_repo_dir(self) -> Path:
@@ -155,6 +158,7 @@ class BLDR:
                 self._source_dir: {'bind': '/source', 'mode': 'z'},
                 self._local_repo_dir: {'bind': '/local-apt', 'mode': 'z'}
             },
+            tmp_on_tmpfs=self._tmp_on_tmpfs,
         )
 
         return container

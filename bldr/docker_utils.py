@@ -88,6 +88,7 @@ class DockerContainer:
         volumes: Optional[Dict] = None,
         client: Optional[DockerClient] = None,
         logger: Logger = logging.getLogger('DockerContainer'),
+        tmp_on_tmpfs: bool = True,
     ) -> None:
 
         if client is None:
@@ -102,6 +103,8 @@ class DockerContainer:
         except docker.errors.ImageNotFound:
             self._client.images.pull(image)
 
+        tmpfs = {'/tmp': 'rw,exec'} if tmp_on_tmpfs else {}
+
         self._container = self._client.containers.create(
             init=True,
             image=image,
@@ -111,7 +114,7 @@ class DockerContainer:
             environment=environment,
             network='host',
             security_opt=['seccomp=unconfined'],
-            tmpfs={'/tmp': 'rw,exec'},
+            tmpfs=tmpfs,
             user=user,
             volumes=volumes,
             extra_hosts={socket.gethostname(): "127.0.0.1"},
