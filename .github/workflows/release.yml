@@ -1,0 +1,43 @@
+name: release
+
+on: workflow_dispatch
+
+jobs:
+  release:
+    name: Release
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v2
+    - name: Setup Python 3.8
+      uses: actions/setup-python@v2
+      with:
+        python-version: 3.8
+    - name: Install dependencies
+      run: |
+        python -m pip install -U pip wheel twine
+        sudo apt install python3-venv make
+    - name: Bump version
+      run: "echo bldr_version=$(make bump-version) | tee --append $GITHUB_ENV"
+    - name: Make dists
+      run:
+        make release
+    - name: Release test
+      run:
+        make release-test
+    - name: Publish a Python distribution to PyPI
+      uses: pypa/gh-action-pypi-publish@release/v1
+      with:
+        user: __token__
+        password: ${{ secrets.PYPI_API_TOKEN }}
+        verbose: true
+    - name: Push new version
+      uses: Andro999b/push@v1.3
+      with:
+        message: "Bump version to ${{ env.bldr_version }}"
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+    - name: Tag
+      env:
+        GITHUB_API_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      run: |
+        .release-test-venv/bin/python3 .github/workflows/tag.py ${{ env.bldr_version }}

@@ -5,3 +5,4 @@ pycodestyle
 pytest==6.0.2
 pytest-cov
 pytest-console-scripts
+pygithub
