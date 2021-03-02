@@ -80,6 +80,7 @@ celerybeat-schedule
 # Environments
 .env
 .venv
+.release-test-venv
 env/
 venv/
 ENV/
