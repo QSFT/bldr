@@ -45,8 +45,8 @@ quick-check:
 .PHONY: update-requirements
 update-requirements: $(VIRTUALENV)/bin/python3
 	$(VIRTUALENV)/bin/pip3 install --upgrade pip-tools
-	$(VIRTUALENV)/bin/pip-compile --no-emit-trusted-host --no-index --upgrade --output-file requirements.txt requirements.in
-	$(VIRTUALENV)/bin/pip-compile --no-emit-trusted-host --no-index --upgrade --output-file requirements-dev.txt requirements-dev.in
+	$(VIRTUALENV)/bin/pip-compile --no-emit-trusted-host --no-emit-index-url --upgrade --output-file requirements.txt requirements.in
+	$(VIRTUALENV)/bin/pip-compile --no-emit-trusted-host --no-emit-index-url --upgrade --output-file requirements-dev.txt requirements-dev.in
 
 # Create a virtualenv in .venv or the directory given in the following form: 'make VIRTUALENV=.venv2 install'
 $(VIRTUALENV)/bin/python3:
